@@ -1,88 +1,81 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {RestaurantsComponent} from './restaurants.component';
 import {RestaurantsService} from './restaurants.service';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Restaurant } from './restaurant/restaurant.model';
-
-let component: RestaurantsComponent;
-let fixture: ComponentFixture<RestaurantsComponent>;
-let service: RestaurantsService;
-let http: HttpClient;
-let mockDb: Restaurant[] = [
-  {
-    "id": "bread-bakery",
-    "name": "Bread & Bakery",
-    "category": "Bakery",
-    "deliveryEstimate": "25m",
-    "rating": 4.9,
-    "imagePath": "assets/img/restaurants/breadbakery.png",
-    "about": "A Bread & Brakery tem 40 anos de mercado. Fazemos os melhores doces e pães. Compre e confira.",
-    "hours": "Funciona de segunda à sexta, de 8h às 23h"
-  }
-]
+import { TestBed } from '@angular/core/testing';
+import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
+import { MEAT_API } from '../app.api';
+import {HttpClientModule} from '@angular/common/http';
 
 describe('RestaurantsComponent', () => {
+  // TODO: apagar quando conseguir importar diréto do db.json
+  const mockDbDummy: Restaurant[] = [
+    {
+      id: 'bread-bakery',
+      name: 'Bread & Bakery',
+      category: 'Bakery',
+      deliveryEstimate: '25m',
+      rating: 4.9,
+      imagePath: 'assets/img/restaurants/breadbakery.png',
+      about: 'A Bread & Brakery tem 40 anos de mercado. Fazemos os melhores doces e pães. Compre e confira.',
+      hours: 'Funciona de segunda à sexta, de 8h às 23h'
+    }
+  ];
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [
-        RestaurantsComponent
-      ],
-      providers: [
-        RestaurantsService,
-
-      ],
-      imports: [
-        HttpClientModule,
-        HttpClientTestingModule,
-        HttpClient
-      ]
-    })
-    .compileComponents();
-  });
+  const restaurantDummy: Restaurant[] = [
+    {
+      id: 'bread-bakery',
+      name: 'Bread & Bakery',
+      category: 'Bakery',
+      deliveryEstimate: '25m',
+      rating: 4.9,
+      imagePath: 'assets/img/restaurants/breadbakery.png',
+      about: 'A Bread & Brakery tem 40 anos de mercado. Fazemos os melhores doces e pães. Compre e confira.',
+      hours: 'Funciona de segunda à sexta, de 8h às 23h'
+    }
+  ];
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RestaurantsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    TestBed.configureTestingModule({
+      providers: [RestaurantsService]
+    });
   });
 
-  beforeAll(() => {
-    http = TestBed.inject(HttpClient);
-  });
+  // Use to test service and API
+  it('should get all restaurants', (done) => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientModule],
+    });
 
-  // xit('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+    const service: RestaurantsService = TestBed.inject(RestaurantsService);
 
-  // it('should get all restaurants', () => {
-  //   let listRestaurants: Restaurant[] = [];
-  //   service = new RestaurantsService(http);
-
-  //   (done: DoneFn) => {
-  //     service.restaurants().subscribe(
-  //       restaurants => {
-  //         expect(restaurants).toEqual(mockDb);
-  //       }
-  //     );
-  //     done();
-  //   }
-  // });
-
-  it('should get all restaurants', async (done: DoneFn) => {
-    let listRestaurants: Restaurant[] = [];
-    service = new RestaurantsService(http);
-
-    await service.restaurants().subscribe(
+    service.restaurants().subscribe(
       restaurants => {
-        listRestaurants = restaurants;
-        console.log(listRestaurants);
-        console.log(mockDb);
-      }
-    );
-
-    expect(listRestaurants).toEqual(mockDb);
+        // TODO: Tentar importar dados em mockDbDummy direto do db.json
+        expect(restaurants).toEqual(mockDbDummy);
+        done();
+      });
   });
 
+  // Use this only for test Service, not API
+  it('should get all restaurants with mocked body', () => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+    });
+
+    const service = TestBed.inject(RestaurantsService);
+    const httpMock = TestBed.inject(HttpTestingController);
+
+    service.restaurants().subscribe(
+      restaurants => {
+        // TODO: Tentar importar dados em mockDbDummy direto do db.json
+        expect(restaurants).toEqual(mockDbDummy);
+      });
+
+    // Try to arrive to rote and return to request
+    const req = httpMock.expectOne(`${MEAT_API}/restaurants`);
+    // Expect that request should be a GET
+    expect(req.request.method).toBe('GET');
+    // Override body from request
+    req.flush(restaurantDummy);
+  });
 });
