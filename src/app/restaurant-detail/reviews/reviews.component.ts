@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import {Observable} from 'rxjs';
 
 import {RestaurantsService} from '../../restaurants/restaurants.service';
+import { Reviews } from './reviews.model';
 
 @Component({
   selector: 'mt-reviews',
@@ -11,7 +12,7 @@ import {RestaurantsService} from '../../restaurants/restaurants.service';
 })
 export class ReviewsComponent implements OnInit {
 
-  reviews : Observable<any> = {} as Observable<any>;
+  reviews : Observable<Reviews[]> = {} as Observable<Reviews[]>;
 
   constructor(
     private restaurantsService : RestaurantsService,

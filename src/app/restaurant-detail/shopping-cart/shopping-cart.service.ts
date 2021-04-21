@@ -2,6 +2,11 @@ import { MenuItem } from "../menu-item/menu-item.model";
 import {CartItem} from './cart-item.model';
 
 export class ShoppingCartService {
+  /*
+    TODO: check that the cartItem list returned in
+    the tests is the same cartItem list stored
+  */
+
   items: CartItem[] = [];
 
   clear(){
@@ -17,6 +22,7 @@ export class ShoppingCartService {
     }
   }
 
+  // TODO : testing passing an cart item
   removeItem(item: CartItem){
     this.items.splice(this.items.indexOf(item), 1);
   }
