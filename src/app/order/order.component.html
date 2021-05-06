@@ -1,55 +1,83 @@
-
 <!--INICIO DO CONTEUDO-->
-<section class="content-header">
-</section>
+<section class="content-header"></section>
 
 <section class="content">
   <section class="invoice">
+    {{ form.valid }}
+    {{ form.value | json }}
 
-      {{ form.valid }}
-      {{ form.value | json }}
-
-      <form novalidate #form="ngForm">
-        <div class="row">
-          <div class="col-xs-12">
-            <h2 class="page-header">
-              <i class="fa fa-shopping-cart"></i> Finalize o seu pedido
-            </h2>
-          </div>
+    <form novalidate #form="ngForm">
+      <div class="row">
+        <div class="col-xs-12">
+          <h2 class="page-header">
+            <i class="fa fa-shopping-cart"></i> Finalize o seu pedido
+          </h2>
         </div>
+      </div>
 
-        <div class="row invoice-info">
-          <div class="col-xs-12">
-            <p class="lead">Endereço de Entrega:</p>
-          </div>
-          <div class="col-sm-6 col-xs-12">
-            <mt-input-container label="Adress" errorMessage="Obrigatório | minimo 5 caracteres">
-              <input type="text" class="form-control" required  name="adress" ngModel placeholder="Endereço" minlength="5" #inputAdress="ngModel" autocomplete="off">
-            </mt-input-container>
-          </div>
-          <div class="col-sm-2 col-xs-6">
-            <mt-input-container label="Number" errorMessage="Obrigatório | somente números">
-              <input type="text" class="form-control" pattern="^[0-9]*$" required name="number" ngModel placeholder="Número" #inputNumber="ngModel" autocomplete="off">
-            </mt-input-container>
-          </div>
-          <div class="col-sm-4 col-xs-6">
-            <mt-input-container label="Optional">
-              <input type="text" class="form-control" name="optional" ngModel placeholder="Complemento">
-            </mt-input-container>
-          </div>
-          <!-- /.col -->
+      <div class="row invoice-info">
+        <div class="col-xs-12">
+          <p class="lead">Endereço de Entrega:</p>
         </div>
-        <!-- /.row -->
+        <div class="col-sm-6 col-xs-12">
+          <mt-input-container
+            label="Adress"
+            errorMessage="Obrigatório | minimo 5 caracteres"
+          >
+            <input
+              type="text"
+              class="form-control"
+              required
+              name="adress"
+              ngModel
+              placeholder="Endereço"
+              minlength="5"
+              #inputAdress="ngModel"
+              autocomplete="off"
+            />
+          </mt-input-container>
+        </div>
+        <div class="col-sm-2 col-xs-6">
+          <mt-input-container
+            label="Number"
+            errorMessage="Obrigatório | somente números"
+          >
+            <input
+              type="text"
+              class="form-control"
+              pattern="^[0-9]*$"
+              required
+              name="number"
+              ngModel
+              placeholder="Número"
+              #inputNumber="ngModel"
+              autocomplete="off"
+            />
+          </mt-input-container>
+        </div>
+        <div class="col-sm-4 col-xs-6">
+          <mt-input-container label="Optional">
+            <input
+              type="text"
+              class="form-control"
+              name="optional"
+              ngModel
+              placeholder="Complemento"
+            />
+          </mt-input-container>
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
 
-        <!-- Table row -->
-        <div class="row">
-          <div class="col-xs-12">
-            <p class="lead">Itens do Pedido:</p>
-          </div>
-          <div class="col-xs-12 table-responsive">
-
-            <table class="table table-striped">
-              <thead>
+      <!-- Table row -->
+      <div class="row">
+        <div class="col-xs-12">
+          <p class="lead">Itens do Pedido:</p>
+        </div>
+        <div class="col-xs-12 table-responsive">
+          <table class="table table-striped">
+            <thead>
               <tr>
                 <th class="text-center">Quantidade</th>
                 <th>Item</th>
@@ -57,8 +85,8 @@
                 <th class="text-right">Subtotal</th>
                 <th class="text-right"></th>
               </tr>
-              </thead>
-              <tbody>
+            </thead>
+            <tbody>
               <tr>
                 <td class="text-center">
                   <a class="btn btn-sm"><i class="fa fa-minus"></i></a>
@@ -84,35 +112,38 @@
                 <td>Recheado com presunto e queijo</td>
                 <td class="text-right">R$ 10,00</td>
                 <td class="text-right">
-                  <a class="btn btn-sm danger "><i class="fa fa-remove"></i></a>
+                  <a class="btn btn-sm danger"><i class="fa fa-remove"></i></a>
                 </td>
               </tr>
-
-              </tbody>
-            </table>
-          </div>
-          <!-- /.col -->
+            </tbody>
+          </table>
         </div>
-        <!-- /.row -->
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
 
-        <div class="row">
-          <!-- accepted payments column -->
-          <div class="col-sm-6 col-xs-12">
-            <p class="lead">Formas de Pagamento:</p>
+      <div class="row">
+        <!-- accepted payments column -->
+        <div class="col-sm-6 col-xs-12">
+          <p class="lead">Formas de Pagamento:</p>
 
-              <div class="form-group">
-                <mt-option [options]="paymentOptions"></mt-option>
-              </div>
-
+          <div class="form-group">
+            <mt-option
+              name="paymentOption"
+              ngModel
+              [options]="paymentOptions"
+            ></mt-option>
           </div>
-          <!-- /.col -->
-          <div class="col-sm-6 col-xs-12">
-            <p class="lead">Frete e Total:</p>
+        </div>
+        <!-- /.col -->
+        <div class="col-sm-6 col-xs-12">
+          <p class="lead">Frete e Total:</p>
 
-            <div class="table-responsive">
-              <table class="table">
-                <tbody><tr>
-                  <th style="width:50%">Itens:</th>
+          <div class="table-responsive">
+            <table class="table">
+              <tbody>
+                <tr>
+                  <th style="width: 50%">Itens:</th>
                   <td class="text-right">R$ 20,00</td>
                 </tr>
                 <tr>
@@ -123,21 +154,25 @@
                   <th>Total:</th>
                   <td class="text-right">R$ 28,00</td>
                 </tr>
-              </tbody></table>
-            </div>
+              </tbody>
+            </table>
           </div>
-          <!-- /.col -->
         </div>
-
-      </form>
-
-      <div class="row">
-        <div class="col-xs-12">
-          <button href="order-summary.html" [disabled]="!form.valid" class="btn btn-success pull-right"><i class="fa fa-credit-card"></i> Concluir Pedido
-          </button>
-        </div>
+        <!-- /.col -->
       </div>
+    </form>
 
-    </section>
+    <div class="row">
+      <div class="col-xs-12">
+        <button
+          href="order-summary.html"
+          [disabled]="!form.valid"
+          class="btn btn-success pull-right"
+        >
+          <i class="fa fa-credit-card"></i> Concluir Pedido
+        </button>
+      </div>
+    </div>
+  </section>
 </section>
 <!-- FIM DO CONTEUDO-->
